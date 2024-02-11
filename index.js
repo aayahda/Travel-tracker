@@ -21,7 +21,13 @@ app.use(express.static("public"));
 app.get("/", async (req, res) => {
   const result =await db.query("select country_code from visited_countries");
   let countries=[];
-  
+  result.rows.forEach((country)=> {
+    countries.push(country.country_code);
+  });
+  console.log(result.rows);
+  console.log(countries);
+  res.render("index.ejs",{countries:countries,total:countries.length});
+db.end();
 });
 
 app.listen(port, () => {
